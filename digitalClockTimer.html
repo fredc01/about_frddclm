@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Digital Clock & Timer</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .glow-button {
+      position: relative;
+      overflow: hidden;
+      background-color: #065f46;
+      transition: background-color 0.3s ease;
+    }
+
+    .glow-button:hover {
+      background-color: #0891b2;
+    }
+
+    .glow-button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: shine 2.5s infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -100%; }
+      50% { left: 100%; }
+      100% { left: 100%; }
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white flex flex-col min-h-screen font-sans">
+
+  <!-- Header -->
+  <header class="bg-gray-800 shadow">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="index.html" class="text-xl font-bold text-white">Portfolio</a>
+      <nav class="space-x-4">
+        <a href="index.html" class="text-gray-300 hover:text-white">Home</a>
+        <a href="privacy.html" class="text-gray-300 hover:text-white">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-1 flex items-center justify-center p-6">
+    <div class="grid md:grid-cols-2 gap-8 max-w-5xl w-full items-start">
+
+      <!-- Left Column: How to Use / Features -->
+      <aside class="bg-gray-800 p-6 rounded-2xl shadow space-y-4">
+        <h2 class="text-2xl font-bold text-cyan-400">How to Use</h2>
+        <ul class="list-disc list-inside text-gray-300 space-y-2">
+          <li>Check the real-time digital clock at the top.</li>
+          <li>To start a timer, enter minutes and click <span class="text-green-400 font-bold">Start Timer</span>.</li>
+          <li>When the timer hits 0, a time’s up message will appear.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-cyan-400 pt-4">Features</h2>
+        <ul class="list-disc list-inside text-gray-300 space-y-2">
+          <li>Live digital clock with 12-hour format and AM/PM.</li>
+          <li>Custom timer with countdown and time’s up alert.</li>
+          <li>Responsive design for all devices.</li>
+          <li>Dark mode theme with glowing interactive elements.</li>
+        </ul>
+      </aside>
+
+      <!-- Right Column: Clock & Timer -->
+      <div class="text-center space-y-8 max-w-md w-full mx-auto">
+        <h1 class="text-3xl font-bold text-cyan-400">Digital Clock & Timer</h1>
+
+        <!-- Digital Clock -->
+        <div class="text-4xl font-mono bg-gray-800 p-4 rounded-lg shadow-md">
+          <span id="clock">--:--:--</span>
+        </div>
+
+        <!-- Timer -->
+        <div class="space-y-4">
+          <input id="timerInput" type="number" min="1" placeholder="Enter minutes" class="w-full p-2 rounded bg-gray-700 text-white placeholder-gray-400 text-center" />
+          <div class="text-2xl font-mono" id="timerDisplay">00:00</div>
+          <button id="startTimer" class="glow-button px-6 py-2 rounded w-full">Start Timer</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-center py-6 text-sm text-gray-400">
+    © 2025 - FRDDCLM
+  </footer>
+
+  <!-- Script -->
+  <script>
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      let h = now.getHours();
+      const m = now.getMinutes().toString().padStart(2, '0');
+      const s = now.getSeconds().toString().padStart(2, '0');
+      const ampm = h >= 12 ? 'PM' : 'AM';
+      h = h % 12 || 12;
+      document.getElementById('clock').textContent = `${h}:${m}:${s} ${ampm}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Timer
+    let timer;
+    document.getElementById('startTimer').addEventListener('click', () => {
+      clearInterval(timer);
+      const minutes = parseInt(document.getElementById('timerInput').value);
+      if (!minutes || minutes < 1) return alert('Please enter valid minutes.');
+
+      let timeLeft = minutes * 60;
+
+      timer = setInterval(() => {
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          document.getElementById('timerDisplay').textContent = "⏰ Time's up!";
+          return;
+        }
+        const mins = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+        const secs = (timeLeft % 60).toString().padStart(2, '0');
+        document.getElementById('timerDisplay').textContent = `${mins}:${secs}`;
+        timeLeft--;
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

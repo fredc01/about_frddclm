@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tech Stack Quiz</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="flex flex-col min-h-screen bg-gray-900 text-white font-sans">
+
+  <!-- Header/Navbar -->
+  <header class="bg-gray-800 shadow">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="index.html" class="text-xl font-bold text-white">Portfolio</a>
+      <nav class="space-x-4">
+        <a href="index.html" class="text-gray-300 hover:text-white">Home</a>
+        <a href="privacy.html" class="text-gray-300 hover:text-white">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow p-6 flex items-center justify-center">
+    <div class="grid md:grid-cols-2 gap-8 max-w-5xl w-full">
+  
+      <!-- Instructions & Features -->
+      <aside class="bg-gray-800 p-6 rounded-2xl shadow space-y-4">
+        <h2 class="text-2xl font-bold text-cyan-400">How to Use</h2>
+        <ul class="list-disc list-inside text-gray-300 space-y-2">
+          <li>Answer each question based on your preferences.</li>
+          <li>The quiz will suggest the tech stack you're most suited for.</li>
+        </ul>
+  
+        <h2 class="text-2xl font-bold text-cyan-400 pt-4">Features</h2>
+        <ul class="list-disc list-inside text-gray-300 space-y-2">
+          <li>Interactive, step-by-step quiz experience.</li>
+          <li>Results with a score breakdown and matching suggestion.</li>
+          <li>Quick restart option to retake anytime.</li>
+        </ul>
+      </aside>
+  
+      <!-- Quiz UI -->
+      <div class="bg-gray-800 rounded-xl p-6 shadow-lg space-y-6 w-full max-w-md mx-auto text-center">
+        <h1 class="text-3xl font-bold text-cyan-400">Which Tech Stack Fits You?</h1>
+        <div id="quiz" class="space-y-4"></div>
+        <div id="result" class="text-center text-xl font-semibold text-green-400 hidden"></div>
+        <button id="restartBtn" class="mt-4 px-6 py-2 bg-cyan-600 hover:bg-cyan-500 rounded hidden">Restart Quiz</button>
+      </div>
+    </div>
+  </main>
+  
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-center py-6 text-sm text-gray-400">
+    © 2025 - FRDDCLM
+  </footer>
+
+  <!-- Script -->
+  <script>
+    const quizData = [
+      {
+        question: "What do you enjoy the most?",
+        options: ["Designing interfaces", "Solving backend problems", "Deploying & scaling apps"],
+        scores: ["Frontend", "Backend", "DevOps"]
+      },
+      {
+        question: "Pick a favorite language:",
+        options: ["JavaScript", "C#", "Python"],
+        scores: ["Frontend", "Backend", "Backend"]
+      },
+      {
+        question: "Preferred environment:",
+        options: ["Browser", "Terminal", "Cloud Dashboards"],
+        scores: ["Frontend", "Backend", "DevOps"]
+      },
+      {
+        question: "What's your go-to tool?",
+        options: ["Figma", "Postman", "Docker"],
+        scores: ["Frontend", "Backend", "DevOps"]
+      },
+      {
+        question: "Which sounds most exciting?",
+        options: ["CSS animations", "Database design", "CI/CD pipelines"],
+        scores: ["Frontend", "Backend", "DevOps"]
+      }
+    ];
+
+    let current = 0;
+    let tally = { Frontend: 0, Backend: 0, DevOps: 0 };
+
+    const quizEl = document.getElementById("quiz");
+    const resultEl = document.getElementById("result");
+    const restartBtn = document.getElementById("restartBtn");
+
+    function showQuestion(index) {
+      const q = quizData[index];
+      quizEl.innerHTML = `<h2 class="text-xl font-semibold mb-2">${q.question}</h2>` +
+        q.options.map((opt, i) => `<button onclick="selectOption(${index}, ${i})" class="block w-full text-left px-4 py-2 my-1 bg-gray-700 hover:bg-cyan-700 rounded">${opt}</button>`).join("");
+    }
+
+    function selectOption(qIndex, optIndex) {
+      const score = quizData[qIndex].scores[optIndex];
+      tally[score]++;
+      current++;
+      if (current < quizData.length) {
+        showQuestion(current);
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      quizEl.classList.add("hidden");
+
+      const resultBreakdown = Object.entries(tally)
+        .map(([stack, score]) => `${stack}: ${score}`)
+        .join(" | ");
+
+      const top = Object.entries(tally).sort((a, b) => b[1] - a[1])[0][0];
+      resultEl.innerHTML = `
+        <p class="mb-2">Score Breakdown → ${resultBreakdown}</p>
+        <p class="text-2xl mt-2">🎯 You match best with: <span class="text-cyan-400">${top} Developer</span>!</p>
+      `;
+      resultEl.classList.remove("hidden");
+      restartBtn.classList.remove("hidden");
+    }
+
+    restartBtn.onclick = () => {
+      current = 0;
+      tally = { Frontend: 0, Backend: 0, DevOps: 0 };
+      quizEl.classList.remove("hidden");
+      resultEl.classList.add("hidden");
+      restartBtn.classList.add("hidden");
+      showQuestion(current);
+    }
+
+    showQuestion(current);
+  </script>
+</body>
+</html>

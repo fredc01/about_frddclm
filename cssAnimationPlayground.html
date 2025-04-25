@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CSS Animation Playground</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .glow-button {
+      position: relative;
+      overflow: hidden;
+      background-color: #0d9488;
+      transition: background-color 0.3s ease;
+    }
+
+    .glow-button:hover {
+      background-color: #22d3ee;
+    }
+
+    .glow-button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+      animation: shine 2.5s infinite;
+    }
+
+    @keyframes shine {
+      0% { left: -100%; }
+      50% { left: 100%; }
+      100% { left: 100%; }
+    }
+
+    .preview-container {
+      width: 300px;
+      height: 300px;
+      margin: 2rem auto;
+      border: 2px dashed #334155;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .preview-box {
+      width: 150px;
+      height: 150px;
+      border-radius: 1rem;
+    }
+
+    .animate-box {
+      animation-fill-mode: both;
+    }
+
+    @keyframes wiggle {
+      0%, 100% { transform: rotate(-5deg); }
+      50% { transform: rotate(5deg); }
+    }
+
+    .wiggle {
+      animation: wiggle 1s ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white font-sans min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-gray-800 shadow">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="index.html" class="text-xl font-bold text-white">Portfolio</a>
+      <nav class="space-x-4">
+        <a href="index.html" class="text-gray-300 hover:text-white">Home</a>
+        <a href="privacy.html" class="text-gray-300 hover:text-white">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="flex-grow p-6 flex items-center justify-center">
+    <div class="grid md:grid-cols-2 gap-8 max-w-5xl w-full">
+      
+      <!-- Instructions & Features -->
+      <aside class="bg-gray-800 p-6 rounded-2xl shadow space-y-4">
+        <h2 class="text-2xl font-bold text-cyan-400">How to Use</h2>
+        <ul class="list-disc list-inside text-gray-300 space-y-2">
+          <li>Select an animation type from the dropdown.</li>
+          <li>Choose a duration and delay time.</li>
+          <li>Pick a color for the animation box.</li>
+          <li>Click <span class="font-bold text-green-400">Animate</span> to play it!</li>
+        </ul>
+  
+        <h2 class="text-2xl font-bold text-cyan-400 pt-4">Features</h2>
+        <ul class="list-disc list-inside text-gray-300 space-y-2">
+          <li>Tailwind animations: bounce, spin, pulse, ping.</li>
+          <li>Custom wiggle animation.</li>
+          <li>Color customization and timing controls.</li>
+          <li>Responsive layout with dark theme.</li>
+        </ul>
+      </aside>
+  
+      <!-- Animation UI -->
+      <div class="bg-gray-800 rounded-xl p-6 space-y-6 shadow-lg w-full max-w-md mx-auto text-center">
+        <h1 class="text-3xl font-bold text-cyan-400">CSS Animation Playground</h1>
+  
+        <div class="preview-container mx-auto">
+          <div id="previewBox" class="preview-box animate-box" style="background-color: #0f766e;"></div>
+        </div>
+  
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <select id="animationType" class="bg-gray-700 text-white rounded p-2">
+            <option value="bounce">Bounce</option>
+            <option value="spin">Spin</option>
+            <option value="pulse">Pulse</option>
+            <option value="ping">Ping</option>
+            <option value="wiggle">Wiggle (custom)</option>
+          </select>
+  
+          <select id="duration" class="bg-gray-700 text-white rounded p-2">
+            <option value="500">0.5s</option>
+            <option value="1000">1s</option>
+            <option value="2000">2s</option>
+          </select>
+  
+          <select id="delay" class="bg-gray-700 text-white rounded p-2">
+            <option value="0">No Delay</option>
+            <option value="500">0.5s</option>
+            <option value="1000">1s</option>
+          </select>
+  
+          <input type="color" id="colorPicker" value="#0f766e" class="rounded p-2 w-full h-10 cursor-pointer border-none" title="Select Object Color" />
+        </div>
+  
+        <button class="glow-button mt-4 px-6 py-2 rounded" onclick="triggerAnimation()">Animate</button>
+      </div>
+    </div>
+  </main>  
+
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-center py-6 text-sm text-gray-400">
+    © 2025 - FRDDCLM
+  </footer>
+
+  <script>
+    const box = document.getElementById("previewBox");
+    const animationSelect = document.getElementById("animationType");
+    const durationSelect = document.getElementById("duration");
+    const delaySelect = document.getElementById("delay");
+    const colorPicker = document.getElementById("colorPicker");
+  
+    const tailwindAnimations = ["bounce", "spin", "pulse", "ping"];
+  
+    function triggerAnimation() {
+      const animation = animationSelect.value;
+      const duration = durationSelect.value;
+      const delay = delaySelect.value;
+      const color = colorPicker.value;
+  
+      // Reset box classes and styles
+      box.className = "preview-box animate-box";
+      box.style.animation = "";
+      box.style.backgroundColor = color;
+  
+      // If it's a Tailwind animation
+      if (tailwindAnimations.includes(animation)) {
+        box.classList.add(`animate-${animation}`);
+        box.style.animationDuration = `${duration}ms`;
+        box.style.animationDelay = `${delay}ms`;
+      } else if (animation === "wiggle") {
+        // Custom wiggle animation
+        box.classList.add("wiggle");
+        box.style.animationDuration = `${duration}ms`;
+        box.style.animationDelay = `${delay}ms`;
+  
+        // Remove animation class after it finishes
+        box.addEventListener("animationend", function handler() {
+          box.classList.remove("wiggle");
+          box.style.animation = "";
+          box.removeEventListener("animationend", handler);
+        });
+      }
+    }
+  </script>
+  
+</body>
+</html>

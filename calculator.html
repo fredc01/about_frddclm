@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculator</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .glow-button {
+      background-color: #065f46;
+      position: relative;
+      overflow: hidden;
+      transition: background-color 0.3s ease;
+    }
+
+    .glow-button:hover {
+      background-color: #0891b2;
+    }
+
+    .glow-button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 200%;
+      height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="bg-gray-800 shadow">
+    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="index.html" class="text-xl font-bold text-white">Portfolio</a>
+      <nav class="space-x-4">
+        <a href="index.html" class="text-gray-300 hover:text-white">Home</a>
+        <a href="privacy.html" class="text-gray-300 hover:text-white">Privacy</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow p-6 flex items-center justify-center">
+    <div class="grid md:grid-cols-2 gap-8 max-w-5xl w-full">
+      
+      <!-- Instructions & Features -->
+      <aside class="bg-gray-800 p-6 rounded-2xl shadow space-y-4">
+        <h2 class="text-2xl font-bold text-cyan-400">How to Use</h2>
+        <ul class="list-disc list-inside text-gray-300 space-y-2">
+          <li>Click on the numbers and operators to build your equation.</li>
+          <li>Press the <span class="font-bold text-green-400">=</span> button to calculate the result.</li>
+          <li>Click <span class="font-bold text-red-400">C</span> to clear the current expression.</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-cyan-400 pt-4">Features</h2>
+        <ul class="list-disc list-inside text-gray-300 space-y-2">
+          <li>Basic operations: add, subtract, multiply, divide.</li>
+          <li>Dark theme with glowing buttons.</li>
+          <li>Responsive design, works on all screen sizes.</li>
+          <li>Real-time calculation with instant feedback.</li>
+        </ul>
+      </aside>
+
+      <!-- Calculator UI -->
+      <div class="bg-gray-800 rounded-xl p-6 space-y-4 shadow-lg w-full max-w-xs mx-auto">
+        <input id="display" type="text" class="w-full text-2xl bg-gray-700 p-4 rounded text-right" readonly>
+        <div class="grid grid-cols-4 gap-4">
+          <button onclick="press('7')" class="glow-button text-xl p-4 rounded">7</button>
+          <button onclick="press('8')" class="glow-button text-xl p-4 rounded">8</button>
+          <button onclick="press('9')" class="glow-button text-xl p-4 rounded">9</button>
+          <button onclick="press('/')" class="glow-button text-xl p-4 rounded">/</button>
+
+          <button onclick="press('4')" class="glow-button text-xl p-4 rounded">4</button>
+          <button onclick="press('5')" class="glow-button text-xl p-4 rounded">5</button>
+          <button onclick="press('6')" class="glow-button text-xl p-4 rounded">6</button>
+          <button onclick="press('*')" class="glow-button text-xl p-4 rounded">*</button>
+
+          <button onclick="press('1')" class="glow-button text-xl p-4 rounded">1</button>
+          <button onclick="press('2')" class="glow-button text-xl p-4 rounded">2</button>
+          <button onclick="press('3')" class="glow-button text-xl p-4 rounded">3</button>
+          <button onclick="press('-')" class="glow-button text-xl p-4 rounded">-</button>
+
+          <button onclick="press('0')" class="glow-button text-xl p-4 rounded">0</button>
+          <button onclick="press('.')" class="glow-button text-xl p-4 rounded">.</button>
+          <button onclick="press('=')" class="glow-button text-xl p-4 rounded">=</button>
+          <button onclick="press('+')" class="glow-button text-xl p-4 rounded">+</button>
+
+          <button onclick="clearDisplay()" class="col-span-4 glow-button text-xl p-4 rounded bg-red-600 hover:bg-red-500">C</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-center py-6 text-sm text-gray-400">
+    © 2025 - FRDDCLM
+  </footer>
+
+  <!-- Calculator Script -->
+  <script>
+    const display = document.getElementById("display");
+
+    function press(key) {
+      if (key === "=") {
+        try {
+          display.value = eval(display.value);
+        } catch {
+          display.value = "Error";
+        }
+      } else {
+        display.value += key;
+      }
+    }
+
+    function clearDisplay() {
+      display.value = "";
+    }
+  </script>
+</body>
+</html>
