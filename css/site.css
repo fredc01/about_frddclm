@@ -1,0 +1,92 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.swiper {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    position: relative;
+}
+
+.swiper-wrapper {
+    align-items: stretch;
+}
+
+.swiper-slide {
+    display: flex;
+    height: auto;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+    .swiper-slide > div {
+        width: 100%;
+    }
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: #22d3ee;
+    background-color: rgba(34, 211, 238, 0.1);
+    padding: 10px;
+    border-radius: 9999px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    transition: background-color 0.2s ease;
+}
+
+    .swiper-button-next:hover,
+    .swiper-button-prev:hover {
+        background-color: rgba(34, 211, 238, 0.3);
+    }
+
+.swiper-button-next {
+    right: 0;
+}
+
+.swiper-button-prev {
+    left: 0;
+}
+
+.swiper-pagination {
+    bottom: -10px;
+}
+
+.animate-fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+.animate-fade-in-delay {
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
