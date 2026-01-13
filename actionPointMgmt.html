@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Action Point Management System</title>
+
+  <!-- TailwindCSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- SwiperJS -->
+  <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet" />
+
+  <!-- PrismJS -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet" />
+</head>
+
+<body class="flex flex-col min-h-screen bg-gray-900 text-white font-sans">
+
+    <!-- Header/Navbar -->
+    <header class="bg-gray-900 shadow-lg sticky top-0 z-50">
+      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-extrabold text-white tracking-wide">
+          <span class="text-indigo-500">FRDDCLM</span> Portfolio
+        </a>
+        <nav class="space-x-6">
+          <a href="index.html" class="text-gray-300 hover:text-white transition">Home</a>
+          <a href="privacy.html" class="text-gray-300 hover:text-white transition">Privacy</a>
+        </nav>
+      </div>
+    </header>
+
+<!-- Back to Top -->
+<button id="backToTop" class="fixed bottom-6 right-6 bg-cyan-500 hover:bg-cyan-600 p-3 rounded-full shadow-lg hidden">
+  ↑
+</button>
+
+<main class="flex-grow px-6 sm:px-10 lg:px-24 py-20">
+  <div class="bg-gray-800 p-8 rounded-2xl border border-indigo-900 space-y-12">
+    
+    <!-- Project Overview -->
+    <section class="text-center space-y-10">
+      <h1 class="text-5xl font-extrabold text-cyan-400 drop-shadow-lg">
+        Action Point Management System
+      </h1>
+      <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+        A collaborative task resolution platform enabling teams to create, assign, track, and resolve project-related action points.
+      </p>
+
+      <!-- Image Carousel -->
+      <div class="swiper mySwiper mt-12">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="files/actionSystem/apms1.png" alt="Dashboard" class="rounded-lg shadow-2xl">
+          </div>
+          <div class="swiper-slide">
+            <img src="files/actionSystem/apms2.png" alt="Case Detail View" class="rounded-lg shadow-2xl">
+          </div>
+          <div class="swiper-slide">
+            <img src="files/actionSystem/apms3.png" alt="Task Assignment" class="rounded-lg shadow-2xl">
+          </div>
+        </div>
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </section>
+
+    <!-- Key Features -->
+    <section class="bg-gray-800 p-8 rounded-2xl border border-indigo-900 space-y-10">
+      <h2 class="text-4xl font-extrabold text-cyan-400 text-center drop-shadow-lg">
+        Key Features
+      </h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        
+        <!-- Create and Issue Action Point Cases -->
+        <div class="flex items-start gap-4 hover:bg-gray-700 p-4 rounded-lg transition">
+          <span class="text-cyan-400 text-2xl shrink-0">📝</span>
+          <div>
+            <h3 class="font-semibold text-white">Create and Issue Action Point Cases</h3>
+            <p class="text-sm text-gray-300">Create action point cases and assign contributors to ensure accountability and progress tracking.</p>
+          </div>
+        </div>
+
+        <!-- Assign Contributors and Target Dates -->
+        <div class="flex items-start gap-4 hover:bg-gray-700 p-4 rounded-lg transition">
+          <span class="text-cyan-400 text-2xl shrink-0">👥</span>
+          <div>
+            <h3 class="font-semibold text-white">Assign Contributors and Target Dates</h3>
+            <p class="text-sm text-gray-300">Easily assign contributors and set target dates to ensure timely completion of tasks.</p>
+          </div>
+        </div>
+
+        <!-- Add Tasks and Designate Persons in Charge -->
+        <div class="flex items-start gap-4 hover:bg-gray-700 p-4 rounded-lg transition">
+          <span class="text-cyan-400 text-2xl shrink-0">✅</span>
+          <div>
+            <h3 class="font-semibold text-white">Add Tasks and Designate Persons in Charge</h3>
+            <p class="text-sm text-gray-300">Break down action points into manageable tasks and designate responsible individuals for each task.</p>
+          </div>
+        </div>
+
+        <!-- Resolve Individual Tasks or the Entire Case -->
+        <div class="flex items-start gap-4 hover:bg-gray-700 p-4 rounded-lg transition">
+          <span class="text-cyan-400 text-2xl shrink-0">🔄</span>
+          <div>
+            <h3 class="font-semibold text-white">Resolve Individual Tasks or the Entire Case</h3>
+            <p class="text-sm text-gray-300">Track and resolve individual tasks or the entire action point case for streamlined completion.</p>
+          </div>
+        </div>
+
+        <!-- Role-Based Resolution Permissions -->
+        <div class="flex items-start gap-4 hover:bg-gray-700 p-4 rounded-lg transition">
+          <span class="text-cyan-400 text-2xl shrink-0">🔐</span>
+          <div>
+            <h3 class="font-semibold text-white">Role-Based Resolution Permissions</h3>
+            <p class="text-sm text-gray-300">Enforce role-based access control for task resolution and case management.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+
+    <!-- API Flow Examples -->
+    <section class="bg-gray-800 p-8 rounded-2xl border border-indigo-900 mt-24">
+      <h2 class="text-4xl font-extrabold text-pink-400 text-center drop-shadow-lg">API Flow Examples</h2>
+
+      <div>
+        <h3 class="text-2xl font-bold mb-4">Create Action Point Case</h3>
+        <pre><code class="language-json">POST /api/action-cases
+{
+  "title": "Security Audit Checklist",
+  "issuedBy": "Jane Lead",
+  "targetDate": "2025-05-10",
+  "contributors": ["John", "Sarah"]
+}</code></pre>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-bold mb-4">Add Task to Case</h3>
+        <pre><code class="language-json">POST /api/action-cases/{id}/tasks
+{
+  "description": "Update Firewall Rules",
+  "personInCharge": "John Doe"
+}</code></pre>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-bold mb-4">Resolve Single Task</h3>
+        <pre><code class="language-json">PUT /api/action-cases/{id}/tasks/{taskId}/resolve
+{
+  "resolvedBy": "John Doe",
+  "remarks": "Firewall rules updated"
+}</code></pre>
+      </div>
+
+      <div>
+        <h3 class="text-2xl font-bold mb-4">Resolve All Tasks (by Issuer)</h3>
+        <pre><code class="language-json">PUT /api/action-cases/{id}/resolve-all
+{
+  "resolvedBy": "Jane Lead"
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- Flow Chart -->
+    <section class="bg-gray-800 p-8 rounded-2xl border border-indigo-900 mt-24">
+      <h2 class="text-2xl font-bold text-indigo-400 text-center mb-10">Action Point Flow</h2>
+      <div class="flex justify-center overflow-x-auto">
+        <svg class="max-w-6xl w-full" viewBox="0 0 1600 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Create -->
+          <rect x="670" y="30" width="260" height="70" rx="12" fill="#06b6d4"/>
+          <text x="800" y="75" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Create Action Point</text>
+
+          <line x1="800" y1="100" x2="800" y2="170" stroke="white" stroke-width="2"/>
+          <rect x="670" y="170" width="260" height="70" rx="12" fill="#0ea5e9"/>
+          <text x="800" y="215" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Assign Details</text>
+
+          <line x1="800" y1="240" x2="800" y2="310" stroke="white" stroke-width="2"/>
+          <rect x="670" y="310" width="260" height="70" rx="12" fill="#6366f1"/>
+          <text x="800" y="355" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Add Task & PIC</text>
+
+          <line x1="800" y1="380" x2="800" y2="450" stroke="white" stroke-width="2"/>
+          <rect x="670" y="450" width="260" height="70" rx="12" fill="#f59e0b"/>
+          <text x="800" y="495" text-anchor="middle" fill="black" font-size="18" font-weight="bold">Resolve Case</text>
+
+          <!-- Resolve All -->
+          <line x1="800" y1="520" x2="600" y2="590" stroke="white" stroke-width="2"/>
+          <rect x="510" y="590" width="180" height="70" rx="12" fill="#22c55e"/>
+          <text x="600" y="635" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Resolve All</text>
+
+          <!-- Resolve Per Task -->
+          <line x1="800" y1="520" x2="1000" y2="590" stroke="white" stroke-width="2"/>
+          <rect x="910" y="590" width="180" height="70" rx="12" fill="#3b82f6"/>
+          <text x="1000" y="635" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Resolve Per Task</text>
+        </svg>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-center py-6 text-sm text-gray-400">
+<p>© 2025 - <span class="text-white font-semibold">FRDDCLM</span>. All rights reserved.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-json.min.js"></script>
+<script>
+  const backToTopBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backToTopBtn.classList.toggle('hidden', window.scrollY < 300);
+  });
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  const swiper = new Swiper(".mySwiper", {
+    loop: true,
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: "auto",
+    autoplay: { delay: 3000, disableOnInteraction: false },
+    pagination: { el: ".swiper-pagination", clickable: true },
+    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+  });
+</script>
+
+</body>
+</html>

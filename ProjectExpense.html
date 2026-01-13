@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Management System - Project Details</title>
+
+  <!-- TailwindCSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+  <!-- SwiperJS -->
+  <link href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" rel="stylesheet" />
+
+  <!-- PrismJS -->
+  <link href="https://cdn.jsdelivr.net/npm/prismjs/themes/prism-tomorrow.min.css" rel="stylesheet">
+</head>
+
+<body class="flex flex-col min-h-screen bg-gray-900 text-white font-sans">
+
+    <!-- Header/Navbar -->
+    <header class="bg-gray-900 shadow-lg sticky top-0 z-50">
+      <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="index.html" class="text-2xl font-extrabold text-white tracking-wide">
+          <span class="text-indigo-500">FRDDCLM</span> Portfolio
+        </a>
+        <nav class="space-x-6">
+          <a href="index.html" class="text-gray-300 hover:text-white transition">Home</a>
+          <a href="privacy.html" class="text-gray-300 hover:text-white transition">Privacy</a>
+        </nav>
+      </div>
+    </header>
+
+<!-- Back to Top Button -->
+<button id="backToTop" class="fixed bottom-6 right-6 bg-cyan-500 hover:bg-cyan-600 p-3 rounded-full shadow-lg hidden">
+  ↑
+</button>
+
+<!-- Main Content -->
+<main class="flex-grow px-6 sm:px-10 lg:px-24 py-20">
+  <div class="bg-gray-800 p-8 rounded-2xl border border-indigo-900 space-y-12">
+    <!-- Project Overview -->
+    <section class="text-center space-y-10">
+      <h1 class="text-5xl font-extrabold text-cyan-400 drop-shadow-lg">
+        Expense Management System
+      </h1>
+      <p class="text-gray-400 text-lg max-w-2xl mx-auto">
+        A centralized platform for submitting, approving, paying, and liquidating project expenses through multi-level processes.
+      </p>
+
+      <!-- Image Carousel -->
+      <section class="bg-gray-800 p-8 rounded-2xl border border-indigo-900 space-y-10">
+
+        <div class="swiper mySwiper mt-12">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img src="files/expenseSystem/032038c1-28cc-472b-8316-f920aebbc2da.png" alt="Dashboard" class="rounded-lg shadow-2xl">
+            </div>
+            <div class="swiper-slide">
+              <img src="files/expenseSystem/9f35a1f9-2520-4878-8dee-4ec8f0ea78ee.png" alt="Submit Expense" class="rounded-lg shadow-2xl">
+            </div>
+            <div class="swiper-slide">
+              <img src="files/expenseSystem/6f6b76f5-227b-4e15-b630-f1467fbb4550.png" alt="Approval Queue" class="rounded-lg shadow-2xl">
+            </div>
+            <div class="swiper-slide">
+              <img src="files/expenseSystem/3e9ef615-2320-48f9-b0bf-d2bca4641141.png" alt="Reports" class="rounded-lg shadow-2xl">
+            </div>
+            <div class="swiper-slide">
+              <img src="files/expenseSystem/b69c31a9-67fe-4ae3-b798-98d6bd955192.png" alt="Expense Summary" class="rounded-lg shadow-2xl">
+            </div>
+          </div>
+
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Key Features -->
+    <section class="bg-gray-800 p-8 rounded-2xl border border-indigo-900 space-y-10">
+      <h2 class="text-4xl font-extrabold text-cyan-400 text-center drop-shadow-lg">
+        Key Features
+      </h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        
+        <!-- Modern UI/UX -->
+        <div class="flex items-start gap-4 hover:bg-gray-700 p-4 rounded-lg transition">
+          <span class="text-cyan-400 text-2xl shrink-0">🖥️</span>
+          <div>
+            <h3 class="font-semibold text-white">Modern UI/UX</h3>
+            <p class="text-sm text-gray-300">Crafted with Bootstrap and custom styles for a clean, responsive, and user-friendly interface.</p>
+          </div>
+        </div>
+
+        <!-- Multi-Step Approval Workflow -->
+        <div class="flex items-start gap-4 hover:bg-gray-700 p-4 rounded-lg transition">
+          <span class="text-cyan-400 text-2xl shrink-0">🔄</span>
+          <div>
+            <h3 class="font-semibold text-white">Multi-Step Approval Workflow</h3>
+            <p class="text-sm text-gray-300">Automated expense routing with confirm, approve, pay, and liquidate stages for transparency and accountability.</p>
+          </div>
+        </div>
+
+        <!-- Real-time Status Tracking -->
+        <div class="flex items-start gap-4 hover:bg-gray-700 p-4 rounded-lg transition">
+          <span class="text-cyan-400 text-2xl shrink-0">⏱️</span>
+          <div>
+            <h3 class="font-semibold text-white">Real-time Status Tracking</h3>
+            <p class="text-sm text-gray-300">Users can monitor the status of their requests and approvers can act based on real-time data.</p>
+          </div>
+        </div>
+
+        <!-- RESTful API Integration -->
+        <div class="flex items-start gap-4 hover:bg-gray-700 p-4 rounded-lg transition">
+          <span class="text-cyan-400 text-2xl shrink-0">☁️</span>
+          <div>
+            <h3 class="font-semibold text-white">RESTful API Integration</h3>
+            <p class="text-sm text-gray-300">Built with modular REST APIs for easy integration and clear separation between backend and frontend.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- API Request Samples -->
+    <section class="space-y-10">
+      <div class="bg-gray-800 p-8 rounded-2xl border border-indigo-900 space-y-12">
+        <h2 class="text-4xl font-extrabold text-pink-400 text-center drop-shadow-lg">
+          API Flow Examples
+        </h2>
+
+        <!-- Individual API Example -->
+        <div>
+          <h3 class="text-2xl font-bold mb-4">Submit New Expense</h3>
+          <pre><code class="language-json">POST /api/expenses
+{
+  "title": "Hotel Booking",
+  "amount": 1200,
+  "submittedBy": "John Doe",
+  "notes": "Business Trip to Tokyo",
+  "receipts": ["receipt1.jpg", "receipt2.jpg"]
+}</code></pre>
+        </div>
+
+        <div>
+          <h3 class="text-2xl font-bold mb-4">Confirm Expense</h3>
+          <pre><code class="language-json">PUT /api/expenses/{id}/confirm
+{
+  "confirmedBy": "Finance Staff A"
+}</code></pre>
+        </div>
+
+        <div>
+          <h3 class="text-2xl font-bold mb-4">Approve Expense</h3>
+          <pre><code class="language-json">PUT /api/expenses/{id}/approve
+{
+  "approvedBy": "Manager X"
+}</code></pre>
+        </div>
+
+        <div>
+          <h3 class="text-2xl font-bold mb-4">Mark Expense as Paid</h3>
+          <pre><code class="language-json">PUT /api/expenses/{id}/pay
+{
+  "paidReference": "BANK-REF-987654",
+  "paidAmount": 1200,
+  "paidDate": "2025-04-28"
+}</code></pre>
+        </div>
+
+        <div>
+          <h3 class="text-2xl font-bold mb-4">Submit Liquidation Result</h3>
+          <pre><code class="language-json">PUT /api/expenses/{id}/liquidate
+{
+  "result": "Reimbursement",
+  "remarks": "Additional taxi fare to be reimbursed."
+}</code></pre>
+        </div>
+      </div>
+    </section>
+
+<!-- Expense Flowchart -->
+<section class="bg-gray-800 p-8 rounded-2xl border border-indigo-900 mt-24">
+  <h2 class="text-2xl font-bold text-indigo-400 text-center mb-10">Request Process Flow</h2>
+
+  <div class="flex justify-center overflow-x-auto">
+    <svg class="max-w-6xl w-full" viewBox="0 0 1800 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+      
+      <!-- Main Flow -->
+      <rect x="720" y="20" width="260" height="70" rx="12" fill="#06b6d4"/>
+      <text x="850" y="65" text-anchor="middle" fill="white" font-size="18" font-weight="bold">All P/E</text>
+
+      <line x1="850" y1="90" x2="850" y2="170" stroke="white" stroke-width="2"/>
+      <rect x="720" y="170" width="260" height="70" rx="12" fill="#0ea5e9"/>
+      <text x="850" y="215" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Awaiting Confirm</text>
+
+      <line x1="850" y1="240" x2="850" y2="320" stroke="white" stroke-width="2"/>
+      <rect x="720" y="320" width="260" height="70" rx="12" fill="#6366f1"/>
+      <text x="850" y="365" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Awaiting Approval</text>
+
+      <line x1="850" y1="390" x2="850" y2="470" stroke="white" stroke-width="2"/>
+      <rect x="720" y="470" width="260" height="70" rx="12" fill="#8b5cf6"/>
+      <text x="850" y="515" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Awaiting Payment</text>
+
+      <line x1="850" y1="540" x2="850" y2="620" stroke="white" stroke-width="2"/>
+      <rect x="720" y="620" width="260" height="70" rx="12" fill="#a855f7"/>
+      <text x="850" y="665" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Pending Receipt</text>
+
+      <line x1="850" y1="690" x2="850" y2="770" stroke="white" stroke-width="2"/>
+      <rect x="720" y="770" width="260" height="70" rx="12" fill="#f59e0b"/>
+      <text x="850" y="815" text-anchor="middle" fill="black" font-size="18" font-weight="bold">Liquidation Audit</text>
+
+      <!-- Split -->
+      <line x1="850" y1="840" x2="650" y2="910" stroke="white" stroke-width="2"/>
+      <line x1="850" y1="840" x2="850" y2="910" stroke="white" stroke-width="2"/>
+      <line x1="850" y1="840" x2="1050" y2="910" stroke="white" stroke-width="2"/>
+
+      <!-- Liquidate -->
+      <rect x="550" y="910" width="180" height="70" rx="12" fill="#10b981"/>
+      <text x="640" y="955" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Liquidate</text>
+
+      <!-- Reimbursement -->
+      <rect x="760" y="910" width="180" height="70" rx="12" fill="#22c55e"/>
+      <text x="850" y="955" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Reimbursement</text>
+
+      <!-- Return -->
+      <rect x="970" y="910" width="180" height="70" rx="12" fill="#ef4444"/>
+      <text x="1060" y="955" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Return</text>
+
+
+    </svg>
+  </div>
+</section>
+
+
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-center py-6 text-sm text-gray-400">
+<p>© 2025 - <span class="text-white font-semibold">FRDDCLM</span>. All rights reserved.</p>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs/components/prism-json.min.js"></script>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+  lucide.createIcons();
+</script>
+
+<script>
+  const backToTopBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    backToTopBtn.classList.toggle('hidden', window.scrollY < 300);
+  });
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  const swiper = new Swiper(".mySwiper", {
+    loop: true,
+    grabCursor: true,
+    centeredSlides: true,
+    slidesPerView: "auto",
+    autoplay: { delay: 3000, disableOnInteraction: false },
+    pagination: { el: ".swiper-pagination", clickable: true },
+    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+  });
+</script>
+
+</body>
+</html>
