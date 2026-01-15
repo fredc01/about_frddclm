@@ -90,3 +90,50 @@ body {
         transform: translateY(0);
     }
 }
+
+/* ================================
+   UNIVERSAL ALWAYS-ON GLOW + SHINE
+   ================================ */
+.u-glow {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+}
+
+/* Base shine (always running) */
+.u-glow {
+  background-image: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.15) 30%,
+    rgba(255, 255, 255, 0.35) 40%,
+    rgba(255, 255, 255, 0.15) 50%
+  );
+  background-size: 200% 100%;
+  animation: u-glow-shine 3s linear infinite;
+  transition: transform 0.25s ease;
+}
+
+/* Pause shine + zoom slightly on hover */
+.u-glow:hover {
+  animation-play-state: paused;
+  transform: scale(1.05);
+}
+
+@keyframes u-glow-shine {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.u-glow:hover { transform: scale(1.03); }
+.u-glow { animation: u-glow-shine 2s linear infinite; }
+.u-glow { animation: u-glow-shine 4.5s ease-in-out infinite; }
+
+
+
+
+
+
