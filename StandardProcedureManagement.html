@@ -151,7 +151,7 @@
             loadFeatures();
         } else {
             // Fetch config for test/live environment
-            fetch("/api/config")
+            fetch("https://standardprocedureapi.onrender.com/api/Config")
                 .then(r => r.json())
                 .then(cfg => {
                     if (href.includes("github.io")) API = cfg.Live;
