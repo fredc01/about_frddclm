@@ -1,0 +1,338 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .glow-button {
+            position: relative;
+            overflow: hidden;
+            background-color: #065f46;
+        }
+
+            .glow-button::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 200%;
+                height: 100%;
+                background: linear-gradient(120deg, transparent, rgba(255,255,255,.2), transparent);
+                animation: shine 2.5s infinite;
+            }
+
+        @keyframes shine {
+            0% {
+                left: -100%
+            }
+
+            50%,100% {
+                left: 100%
+            }
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%,100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0
+            }
+        }
+
+        .modal-enter {
+            transform: scale(.95);
+            opacity: 0;
+        }
+
+        .modal-enter-active {
+            transform: scale(1);
+            opacity: 1;
+            transition: all .2s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex flex-col min-h-screen">
+
+    <!-- HEADER -->
+    <header class="bg-gray-800 shadow">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="index.html" class="text-xl font-bold text-white">Portfolio</a>
+            <nav class="space-x-4">
+                <a href="index.html" class="text-gray-300 hover:text-white">Home</a>
+                <a href="privacy.html" class="text-gray-300 hover:text-white">Privacy</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="flex-grow p-6 flex justify-center">
+        <div class="grid md:grid-cols-2 gap-8 max-w-6xl w-full">
+
+            <!-- LEFT PANEL -->
+            <aside class="bg-gray-800 p-6 rounded-xl space-y-8">
+
+                <section>
+                    <div class="flex items-center gap-2 mb-2">
+                        <button onclick="openAdd('step')" class="bg-cyan-500 px-2 rounded">+</button>
+                        <h2 class="text-cyan-400 text-xl font-bold">How to Use</h2>
+                    </div>
+                    <ul id="howToUseList" class="space-y-1"></ul>
+                </section>
+
+                <section>
+                    <div class="flex items-center gap-2 mb-2">
+                        <button onclick="openAdd('feature')" class="bg-cyan-500 px-2 rounded">+</button>
+                        <h2 class="text-cyan-400 text-xl font-bold">Features</h2>
+                    </div>
+                    <ul id="featuresList" class="space-y-1"></ul>
+                </section>
+
+            </aside>
+
+            <!-- RIGHT PANEL -->
+            <div class="bg-gray-800 p-6 rounded-xl space-y-4">
+                <h1 class="text-center text-2xl text-cyan-400 font-bold">To-Do List</h1>
+                <input id="taskInput" class="w-full p-2 bg-gray-700 rounded" placeholder="Task">
+                <input id="dueInput" type="datetime-local" class="w-full p-2 bg-gray-700 rounded">
+                <button id="addTaskBtn" class="glow-button w-full py-2 rounded">Add Task</button>
+                <ul id="taskList" class="space-y-2"></ul>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-800 text-center py-6 text-sm text-gray-400">
+        © 2025 - FRDDCLM
+    </footer>
+
+    <!-- ADD / EDIT MODAL -->
+    <div id="backdrop" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center">
+        <div id="modal" class="bg-gray-800 p-6 rounded-lg w-96 space-y-4 modal-enter">
+            <h3 id="modalTitle" class="text-cyan-400 font-bold"></h3>
+            <input id="input1" class="w-full p-2 bg-gray-700 rounded hidden">
+            <input id="input2" class="w-full p-2 bg-gray-700 rounded">
+            <div class="flex justify-end gap-2">
+                <button onclick="closeModal()" class="bg-gray-600 px-3 py-1 rounded">Cancel</button>
+                <button onclick="saveModal()" class="bg-cyan-500 px-3 py-1 rounded">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DELETE MODAL -->
+    <div id="deleteBackdrop" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center">
+        <div class="bg-gray-800 p-6 rounded-lg w-96 space-y-4 modal-enter">
+            <h3 class="text-cyan-400 font-bold">Confirm Delete</h3>
+            <p id="deleteMessage" class="text-gray-300"></p>
+            <div class="flex justify-end gap-2">
+                <button onclick="closeDeleteModal()" class="bg-gray-600 px-3 py-1 rounded">Cancel</button>
+                <button id="confirmDeleteBtn" class="bg-red-500 px-3 py-1 rounded">Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let API = "https://localhost:7031"; // default for local/file://
+
+        const href = window.location.href.toLowerCase();
+        const host = window.location.hostname.toLowerCase();
+
+        if (href.startsWith("file://") || host === "localhost" || host === "127.0.0.1") {
+            // Running locally or opened via file://, just use default
+            loadSteps();
+            loadFeatures();
+        } else {
+            // Fetch config for test/live environment
+            fetch("/api/config")
+                .then(r => r.json())
+                .then(cfg => {
+                    if (href.includes("github.io")) API = cfg.Live;
+                    else if (href.includes("test") || host.includes("test")) API = cfg.Test;
+                    else API = cfg.Live; // fallback
+                    loadSteps();
+                    loadFeatures();
+                })
+                .catch(err => {
+                    console.error("Failed to load config:", err);
+                    loadSteps();
+                    loadFeatures();
+                });
+        }
+
+        let mode = "", type = "", editId = null;
+
+        /* ===== LOAD DATA ===== */
+        async function loadSteps() {
+            try {
+                const d = await (await fetch(`${API}/api/howtousesteps`)).json();
+                howToUseList.innerHTML = d.map(s => `<li class="flex justify-between bg-gray-700 p-2 rounded">
+                                                        <span>${s.description}</span>
+                                                        <div class="space-x-2">
+                                                          <button class="edit-step" data-id="${s.id}" data-step="${s.step_number}" data-desc="${encodeURIComponent(s.description)}">✏</button>
+                                                          <button class="delete-step" data-id="${s.id}">🗑</button>
+                                                        </div>
+                                                      </li>`).join("");
+            } catch {
+                howToUseList.innerHTML = "<li class='text-red-400'>Failed to load steps</li>";
+            }
+        }
+
+        async function loadFeatures() {
+            try {
+                const d = await (await fetch(`${API}/api/features`)).json();
+                featuresList.innerHTML = d.map(f => `<li class="flex justify-between bg-gray-700 p-2 rounded">
+                                                        <span>${f.title}</span>
+                                                        <div class="space-x-2">
+                                                          <button class="edit-feature" data-id="${f.id}" data-title="${encodeURIComponent(f.title)}">✏</button>
+                                                          <button class="delete-feature" data-id="${f.id}">🗑</button>
+                                                        </div>
+                                                      </li>`).join("");
+            } catch {
+                featuresList.innerHTML = "<li class='text-red-400'>Failed to load features</li>";
+            }
+        }
+
+        /* ===== MODAL LOGIC ===== */
+        async function openAdd(t) {
+            mode = "add"; type = t; editId = null;
+            modalTitle.textContent = t === "step" ? "Add Step" : "Add Feature";
+            input1.classList.toggle("hidden", t !== "step");
+            input1.placeholder = "Step number";
+            input2.placeholder = t === "step" ? "Description" : "Title";
+            input2.value = "";
+            if (t === "step") {
+                try {
+                    const steps = await (await fetch(`${API}/api/howtousesteps`)).json();
+                    input1.value = steps.length ? Math.max(...steps.map(s => s.step_number)) + 1 : 1;
+                } catch { input1.value = 1; }
+            }
+            showModal();
+        }
+
+        function openEdit(t, id, n, text) {
+            mode = "edit"; type = t; editId = id;
+            modalTitle.textContent = "Edit";
+            input1.classList.toggle("hidden", t !== "step");
+            input1.value = n || "";
+            input2.value = text;
+            showModal();
+        }
+
+        function showModal() {
+            backdrop.classList.remove("hidden");
+            requestAnimationFrame(() => modal.classList.add("modal-enter-active"));
+        }
+
+        function closeModal() {
+            backdrop.classList.add("hidden");
+            modal.classList.remove("modal-enter-active");
+            input1.value = input2.value = "";
+        }
+
+        document.addEventListener("keydown", e => { if (e.key === "Escape") { closeModal(); closeDeleteModal(); } });
+        backdrop.onclick = e => e.target === backdrop && closeModal();
+
+        async function saveModal() {
+            if (type === "step") {
+                const stepNumber = parseInt(input1.value);
+                const description = input2.value.trim();
+                if (isNaN(stepNumber) || !description) { alert("Step number & description required"); return; }
+                const payload = mode === "edit" ? { id: editId, step_number: stepNumber, description } : { step_number: stepNumber, description };
+                await fetch(`${API}/api/howtousesteps${mode === "edit" ? "/" + editId : ""}`, {
+                    method: mode === "edit" ? "PUT" : "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                loadSteps();
+            } else {
+                const title = input2.value.trim();
+                if (!title) { alert("Title required"); return; }
+                const payload = mode === "edit" ? { id: editId, title } : { title };
+                await fetch(`${API}/api/features${mode === "edit" ? "/" + editId : ""}`, {
+                    method: mode === "edit" ? "PUT" : "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload)
+                });
+                loadFeatures();
+            }
+            closeModal();
+        }
+
+        /* ===== DELETE MODAL LOGIC ===== */
+        let deleteType = "", deleteId = null;
+        function openDeleteModal(t, id, name) {
+            deleteType = t; deleteId = id;
+            deleteMessage.textContent = t === "step" ? `Delete step: "${name}"?` : `Delete feature: "${name}"?`;
+            deleteBackdrop.classList.remove("hidden");
+            requestAnimationFrame(() => deleteBackdrop.firstElementChild.classList.add("modal-enter-active"));
+        }
+
+        function closeDeleteModal() {
+            deleteBackdrop.classList.add("hidden");
+            deleteBackdrop.firstElementChild.classList.remove("modal-enter-active");
+            deleteType = deleteId = null;
+        }
+
+        confirmDeleteBtn.onclick = async () => {
+            if (!deleteId) return;
+            await fetch(`${API}/api/${deleteType === "step" ? "howtousesteps" : "features"}/${deleteId}`, { method: "DELETE" });
+            deleteType === "step" ? loadSteps() : loadFeatures();
+            closeDeleteModal();
+        }
+
+        deleteBackdrop.onclick = e => e.target === deleteBackdrop && closeDeleteModal();
+
+        /* ===== CLICK LISTENER FOR EDIT/DELETE ===== */
+        document.addEventListener("click", e => {
+            if (e.target.classList.contains("delete-step"))
+                openDeleteModal("step", e.target.dataset.id, decodeURIComponent(e.target.closest("li").querySelector("span").textContent));
+            if (e.target.classList.contains("delete-feature"))
+                openDeleteModal("feature", e.target.dataset.id, decodeURIComponent(e.target.closest("li").querySelector("span").textContent));
+            if (e.target.classList.contains("edit-step"))
+                openEdit("step", e.target.dataset.id, e.target.dataset.step, decodeURIComponent(e.target.dataset.desc));
+            if (e.target.classList.contains("edit-feature"))
+                openEdit("feature", e.target.dataset.id, null, decodeURIComponent(e.target.dataset.title));
+        });
+
+        /* ===== TODO LIST ===== */
+        addTaskBtn.onclick = () => {
+            if (!taskInput.value || !dueInput.value) { alert("Task & Due required"); return; }
+            const li = document.createElement("li");
+            li.dataset.due = dueInput.value;
+            li.className = "bg-gray-700 p-2 rounded flex justify-between items-center";
+            li.innerHTML = `<div><span class="task-text">${taskInput.value}</span>
+                              <div class="text-xs text-gray-400">Due: ${new Date(dueInput.value).toLocaleString()}</div></div>
+                              <div class="space-x-2"><button onclick="toggleDone(this)" class="text-green-400">✔</button>
+                              <button onclick="this.parentElement.parentElement.remove()" class="text-red-400">✖</button>
+                           </div>`;
+            taskList.appendChild(li);
+            taskInput.value = dueInput.value = "";
+        };
+
+        function toggleDone(btn) {
+            const span = btn.closest("li").querySelector(".task-text");
+            span.classList.toggle("line-through");
+            span.classList.toggle("text-gray-500");
+            btn.closest("li").classList.remove("blink");
+        }
+
+        setInterval(() => {
+            const now = new Date();
+            document.querySelectorAll("#taskList li").forEach(t => {
+                const due = new Date(t.dataset.due);
+                const done = t.querySelector(".task-text").classList.contains("line-through");
+                if (!done && due < now) t.classList.add("blink"); else t.classList.remove("blink");
+            });
+        }, 5000);
+
+    </script>
+</body>
+</html>
