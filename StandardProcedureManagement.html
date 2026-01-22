@@ -145,27 +145,48 @@
         const href = window.location.href.toLowerCase();
         const host = window.location.hostname.toLowerCase();
 
-        if (href.startsWith("file://") || host === "localhost" || host === "127.0.0.1") {
-            // Running locally or opened via file://, just use default
+        // Helper to remove trailing slash
+        function normalizeUrl(url) {
+            return url.replace(/\/$/, "");
+        }
+
+        // Determine API base
+        async function initAPI() {
+            if (href.startsWith("file://") || host === "localhost" || host === "127.0.0.1") {
+                // Local dev
+                API = normalizeUrl(API);
+            } else {
+                try {
+                    const cfg = await (await fetch("https://standardprocedureapi.onrender.com/api/Config")).json();
+
+                    // Make sure keys are lowercase to avoid case issues
+                    const config = {
+                        local: cfg.local,
+                        test: cfg.test,
+                        live: cfg.live
+                    };
+
+                    if (href.includes("github.io")) {
+                        API = normalizeUrl(config.live);
+                    } else if (href.includes("test") || host.includes("test")) {
+                        API = normalizeUrl(config.test);
+                    } else {
+                        API = normalizeUrl(config.live); // fallback
+                    }
+                } catch (err) {
+                    console.error("Failed to load config, falling back to default API:", err);
+                    API = normalizeUrl(API);
+                }
+            }
+
+            // Now safe to load data
             loadSteps();
             loadFeatures();
-        } else {
-            // Fetch config for test/live environment
-            fetch("https://standardprocedureapi.onrender.com/api/Config")
-                .then(r => r.json())
-                .then(cfg => {
-                    if (href.includes("github.io")) API = cfg.Live;
-                    else if (href.includes("test") || host.includes("test")) API = cfg.Test;
-                    else API = cfg.Live; // fallback
-                    loadSteps();
-                    loadFeatures();
-                })
-                .catch(err => {
-                    console.error("Failed to load config:", err);
-                    loadSteps();
-                    loadFeatures();
-                });
         }
+
+        // Start
+        initAPI();
+
 
         let mode = "", type = "", editId = null;
 
